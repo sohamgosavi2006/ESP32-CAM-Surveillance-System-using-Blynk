@@ -1,68 +1,136 @@
 
 DEMONSTRATION LINK -> 
 
-This project transforms an ESP32-CAM into a WiFi-enabled smart surveillance system. It streams live video, detects and recognizes faces, and is fully controllable via the Blynk IoT app.
+This project transforms an ESP32-CAM into a WiFi-enabled smart surveillance system. It streams live video, detects and recognizes faces, and is fully controllable via the Blynk IoT app and uses Arduino for development of features.
 
 🔧 Features
-🎥 1. Live Video Streaming
-Real-time MJPEG video stream over HTTP.
+🎥 1. Live Camera Feed
+📡 HTTP MJPEG Video Streaming
 
-Built-in compressed web interface (index_ov2640.html.gz) to view the feed from any browser.
+Real-time low-latency video feed via ESP32's onboard HTTP server.
 
-Adjustable resolution and frame rate for performance tuning.
+Accessible from local IP through any browser.
 
-📸 2. Image Capture
-Take snapshots via:
+🌐 Compressed Web UI (index_ov2640.html.gz)
 
-A browser (by hitting the /capture endpoint).
+Clean interface to view the feed and control settings.
 
-The Blynk app (using a virtual button).
+Fully embedded in firmware for fast load times.
 
-Captured image is in JPEG format and can be viewed or saved directly.
+📷 2. Image Capture
+🖼️ On-Demand Snapshot
+
+Captures image at /capture endpoint.
+
+Outputs JPEG format with adjustable quality.
+
+🧠 Capture via Blynk App
+
+One-tap virtual button to trigger capture.
+
+Can optionally send notification with image to Blynk.
 
 🧠 3. Face Detection & Recognition
-Detects faces in the camera feed using MTCNN.
+👁️ Real-Time Face Detection
 
-Optional face recognition system to:
+Uses MTCNN to detect human faces in frame.
 
-Greet known users: “Hello Subject [ID]”
+Detects multiple faces simultaneously.
 
-Alert unknown users: “Intruder Alert!”
+🧑‍💼 Face Recognition
 
-Allows enrolling up to 7 face IDs (each with 5 sample images).
+Compares detected faces against enrolled database.
 
-🖼️ 4. Visual Feedback
-Colored boxes around faces:
+If matched: ✅ “Hello Subject [ID]”
 
-🟢 Green – recognized face
+If unmatched: 🚨 “Intruder Alert!”
 
-🔴 Red – unknown face
+🧠 Face ID Enrollment Mode
 
-🟡 Yellow – detected face (not yet recognized)
+Stores up to 7 unique faces.
 
-On-screen text overlays show messages directly on the video stream.
+Requires 5 sample images per face ID for accuracy.
 
-📲 5. Blynk App Control
-Control camera features remotely using the Blynk IoT platform:
+Uses visual + serial feedback during enrollment.
 
-Start/stop face detection or recognition.
+🎨 4. Visual Overlays
+🟥 🟩 Bounding Boxes
 
-Capture photos.
+Red: Unrecognized face
 
-Adjust camera settings like brightness, quality, and resolution.
+Green: Matched face ID
 
-⚙️ 6. Customizable Camera Settings
-Change settings in real-time:
+Yellow: Generic detection
 
-Resolution (framesize)
+🖋️ On-Frame Text Feedback
 
-Image quality
+Shows face ID or warning directly on video stream.
 
-Brightness, contrast, saturation
+Rendered using fb_gfx drawing functions.
 
-Auto white balance (AWB), gain, exposure
+🎛️ 5. Adjustable Camera Settings
+Easily tune camera performance from the Blynk app or web UI:
 
-📊 7. Performance Stats (Optional)
-Serial monitor prints frame timing and FPS stats to help with debugging and optimization.
+Setting	Description
+framesize	Image resolution
+quality	JPEG compression level
+brightness	Brightness adjustment
+contrast	Contrast balance
+saturation	Color saturation
+awb, agc	Auto white balance / gain control
+gainceiling	Gain ceiling for light handling
+colorbar	Enable test color bars
+
+✅ Changes take effect in real-time.
+
+📱 6. Blynk IoT Integration
+📲 Remote Monitoring
+
+Live status and control from mobile Blynk dashboard.
+
+🕹️ Virtual Controls
+
+Toggle face detection/recognition
+
+Trigger snapshots
+
+Adjust camera settings via sliders/switches
+
+🔔 Optional Alerts
+
+Add notifications when face is recognized or unknown person is detected.
+
+⚙️ 7. Performance & Debugging
+📈 FPS & Performance Stats
+
+Console shows per-frame timing and FPS:
+
+yaml
+Copy
+Edit
+MJPG: 23545B 132ms (7.6fps), AVG: 143ms (6.9fps)
+🧠 Rolling Average Filter
+
+Smoothes out frame time variation.
+
+🧰 8. Fail-Safe Handling
+❌ Automatic 500 error response on:
+Camera buffer failure
+Image processing/memory issues
+🛑 Frees all buffers after use to prevent crashes.
+
+✅ Summary Table
+Feature	Availability
+Live Video Streaming	
+Image Capture	
+Face Detection	
+Face Recognition	
+Blynk App Integration	
+Remote Camera Control	
+Visual Feedback Overlays	
+Web UI (Gzipped HTML)	
+Error Recovery	
+
+
 
 ✅ Great for IoT beginners, hobbyists, or anyone looking to build a DIY smart camera.
